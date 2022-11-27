@@ -9,17 +9,9 @@ const app = express();
 app.use(express.json({ extended: false }));
 databaseConnection();
 
-
 app.get("/", (req, res) => {
-    res.send(`
-        1. To add user send POST request to : http://localhost:4000/user
-        2. To search user send GET request with query parameters : 
-            i.e. 
-                http://localhost:4000/search
-                http://localhost:4000/search?city=Yarmouth&age_lt=27
-    `);
+    res.send("Hello world");
 });
-
 
 app.get("/search", async (req, res) => {
     const { first_name, last_name, email, city, age_gt, age_lt } = req.query;
@@ -41,21 +33,7 @@ app.get("/search", async (req, res) => {
                 "Please provide either age greater then of age less then query, not both"
             );
         let query = { $match: {} };
-        if (age_gt && age_gt > 0) {
-            query.$match.$expr = {
-                $gte: [
-                    {
-                        $dateDiff: {
-                            startDate: "$birth_date",
-                            endDate: "$$NOW",
-                            unit: "year",
-                        },
-                    },
-                    +age_gt,
-                ],
-            };
-            return query;
-        } else if (age_lt && age_lt > 0) {
+        if (age_lt && age_lt > 0) {
             query.$match.$expr = {
                 $lte: [
                     {
@@ -66,6 +44,20 @@ app.get("/search", async (req, res) => {
                         },
                     },
                     +age_lt,
+                ],
+            };
+            return query;
+        } else {
+            query.$match.$expr = {
+                $gte: [
+                    {
+                        $dateDiff: {
+                            startDate: "$birth_date",
+                            endDate: "$$NOW",
+                            unit: "year",
+                        },
+                    },
+                    + age_gt || 0,
                 ],
             };
             return query;
