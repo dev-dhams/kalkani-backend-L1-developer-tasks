@@ -1,0 +1,105 @@
+{
+	"info": {
+		"_postman_id": "fb521ce2-a05b-4a46-abcf-a76766f842e7",
+		"name": "Backend - Technical Tasks - Kalkani",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Home",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": {\n        \"first_name\": \"Terry\",\n        \"last_name\": \"Medhurst\",\n        \"email\": \"atunwee22301@sohu.com\",\n        \"phone_number\": \"1234566890\",\n        \"birth_date\": \"2000-12-25\",\n        \"address\": {\n            \"line_1\": \"1745 T Street\",\n            \"line_2\": \"Southeast\",\n            \"pincode\": \"200201\",\n            \"city\": \"Mumbai\",\n            \"state\": \"DC\",\n            \"type\": \"Home\"\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/search?city=Yarmouth&age_lt=27",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "first_name",
+							"value": "Eleanora",
+							"disabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "Medhurst",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "atunweerry22301@sohu.com",
+							"disabled": true
+						},
+						{
+							"key": "city",
+							"value": "Yarmouth"
+						},
+						{
+							"key": "age_gt",
+							"value": "25",
+							"disabled": true
+						},
+						{
+							"key": "age_lt",
+							"value": "27"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
