@@ -9,9 +9,17 @@ const app = express();
 app.use(express.json({ extended: false }));
 databaseConnection();
 
+
 app.get("/", (req, res) => {
-    res.send("Hello world");
+    res.send(`
+        1. To add user send POST request to : http://localhost:4000/user
+        2. To search user send GET request with query parameters : 
+            i.e. 
+                http://localhost:4000/search
+                http://localhost:4000/search?city=Yarmouth&age_lt=27
+    `);
 });
+
 
 app.get("/search", async (req, res) => {
     const { first_name, last_name, email, city, age_gt, age_lt } = req.query;
