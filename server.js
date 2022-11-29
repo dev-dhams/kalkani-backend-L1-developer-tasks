@@ -5,17 +5,28 @@ const User = require("./models/UserSchema");
 const Address = require("./models/AddressSchema");
 const validateUserData = require("./middleware/validateUserData");
 
+/* Note : All the error message send back to front-end is simple, we can use much more detailed error responses */
+
 const app = express();
 app.use(express.json({ extended: false }));
 databaseConnection();
 
 app.get("/", (req, res) => {
-    res.send("Hello world");
+    res.send(
+        `API ENDPOINTS :\n    
+        1. To add user in data base POST : http://localhost:4000/user\n 
+        2. To search user : GET http://localhost:4000/search?city=Mumbai&age_lt=25 \n(For more info view /postman directory and import that json file in postman\n 
+        Note : please change MONGODB_URI in .env file to communicate with DATABASE properly`
+    );
 });
 
+// @route  /search
+// @desc   Find user from database
+// @query params :  first_name, last_name, email, city, age_gt, age_lt
 app.get("/search", async (req, res) => {
     const { first_name, last_name, email, city, age_gt, age_lt } = req.query;
 
+    /* Create normal query for first_name, last_name, email, city */
     const myQuery = (first_name, last_name, email, city) => {
         let query = { $match: {} };
         if (first_name)
@@ -27,6 +38,8 @@ app.get("/search", async (req, res) => {
         return query;
     };
 
+    /* Date query is some what tricky, first have to calculate age of user at current day 
+    and then check either it is greater then or less then query age */
     const dateQuery = (age_gt, age_lt, res) => {
         if (age_gt && age_lt)
             return res.send(
@@ -57,13 +70,15 @@ app.get("/search", async (req, res) => {
                             unit: "year",
                         },
                     },
-                    + age_gt || 0,
+                    +age_gt || 0,
                 ],
             };
             return query;
         }
     };
 
+    /* Using mongodb aggregate pipeline to perform date query in database 
+    We can use other query methods as well */
     try {
         const users = await User.aggregate([
             {
@@ -79,6 +94,9 @@ app.get("/search", async (req, res) => {
     }
 });
 
+// @route  /user
+// @desc   Add user in database
+// @body params :  please import /postman in postman api client for more info
 app.post("/user", validateUserData, async (req, res) => {
     const { first_name, last_name, email, phone_number, birth_date } =
         req.body.user;
