@@ -6,7 +6,7 @@
 Please follow below steps to install dependencies and run this project.
 
 ```shell
-git clonegit clone https://github.com/dev-dhams/kalkani-backend-L1-developer-tasks
+git clone https://github.com/dev-dhams/kalkani-backend-L1-developer-tasks
 cd kalkani-backend-L1-developer-tasks
 ```
 Note : Before running this project, make user that MONGODB_URI is properly configured in .env file. after that install dependencies and run this project.
